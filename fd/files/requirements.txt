@@ -1,5 +1,0 @@
-flask>=3.0
-opencv-python-headless>=4.9
-deepface>=0.0.93
-tensorflow>=2.15
-gunicorn>=21.2
