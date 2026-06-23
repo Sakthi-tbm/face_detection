@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mood Scanner — Face Emotion Detection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Mood Scanner</span>
+  </div>
+  <p class="brand-tag">Live face emotion detection, right in your browser</p>
+</header>
+
+<main class="layout">
+
+  <section class="viewport-panel">
+    <div class="mode-switch" role="tablist" aria-label="Input mode">
+      <button class="mode-btn is-active" data-mode="live" role="tab" aria-selected="true">Live camera</button>
+      <button class="mode-btn" data-mode="upload" role="tab" aria-selected="false">Upload photo</button>
+    </div>
+
+    <div class="stage" id="stage">
+
+      <!-- LIVE MODE -->
+      <div class="view live-view is-active" id="liveView">
+        <div class="frame-wrap" id="liveFrameWrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="liveOverlay"></canvas>
+          <div class="frame-corner tl"></div>
+          <div class="frame-corner tr"></div>
+          <div class="frame-corner bl"></div>
+          <div class="frame-corner br"></div>
+          <div class="empty-state" id="liveEmptyState">
+            <p>Camera is off</p>
+            <button class="btn btn-primary" id="startCameraBtn">Start camera</button>
+          </div>
+        </div>
+        <p class="hint" id="liveHint">Allow camera access to start scanning.</p>
+      </div>
+
+      <!-- UPLOAD MODE -->
+      <div class="view upload-view" id="uploadView">
+        <div class="frame-wrap" id="uploadFrameWrap">
+          <div class="dropzone" id="dropzone">
+            <p class="dropzone-title">Drop a photo here</p>
+            <p class="dropzone-sub">or click to choose a file</p>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+          </div>
+          <canvas id="uploadCanvas" hidden></canvas>
+          <div class="frame-corner tl"></div>
+          <div class="frame-corner tr"></div>
+          <div class="frame-corner bl"></div>
+          <div class="frame-corner br"></div>
+        </div>
+        <p class="hint" id="uploadHint">JPG or PNG, analyzed entirely on this app's server.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <aside class="readout-panel">
+    <div class="readout-card">
+      <p class="readout-label">Dominant reading</p>
+      <p class="readout-emotion" id="dominantEmotion">—</p>
+      <p class="readout-sub" id="faceCount">No face detected yet</p>
+    </div>
+
+    <div class="bars-card">
+      <p class="bars-title">Emotion breakdown</p>
+      <div class="bars" id="emotionBars">
+        <!-- populated by app.js -->
+      </div>
+    </div>
+
+    <div class="info-card">
+      <p>Boxes update a few times a second while scanning. Nothing is stored — frames are analyzed and discarded.</p>
+    </div>
+  </aside>
+
+</main>
+
+<footer class="footer">
+  <p>Built with OpenCV + DeepFace · share this page's link on your network to let friends try it</p>
+</footer>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
